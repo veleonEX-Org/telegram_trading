@@ -5,6 +5,5 @@ psycopg2-binary
 pydantic
 python-dotenv
 telethon
-MetaTrader5
 pydantic-settings
 httpx
