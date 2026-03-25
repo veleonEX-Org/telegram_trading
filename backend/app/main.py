@@ -57,6 +57,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"message": "Veleonex Trading API is running"}
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "message": "Backend is awake"}
+
 # Include Routers
 app.include_router(trades_router, prefix="/api/trades")
 app.include_router(performance_router, prefix="/api/performance")
