@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     telegram_group_link: str
     telegram_api_id: str = "YOUR_ID"
     telegram_api_hash: str = "YOUR_HASH"
+    telegram_session_string: str = ""  # Set on Render to avoid ephemeral filesystem issues
 
     # Trading logic
     base_balance: float = 1000.0

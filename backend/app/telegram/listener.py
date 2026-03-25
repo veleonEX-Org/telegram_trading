@@ -1,4 +1,5 @@
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 from app.telegram.parser import parse_signal
 from app.core.db import SessionLocal
 from app.core.config import settings
@@ -15,7 +16,9 @@ import httpx
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-client = TelegramClient("session", settings.telegram_api_id, settings.telegram_api_hash)
+# Use StringSession when running on Render (env var set); fall back to file session locally
+_session = StringSession(settings.telegram_session_string) if settings.telegram_session_string else "session"
+client = TelegramClient(_session, settings.telegram_api_id, settings.telegram_api_hash)
 storage = Storage()
 
 # Fetch target group chat
@@ -221,6 +224,18 @@ async def main():
     asyncio.create_task(heartbeat_loop())
 
     await client.run_until_disconnected()
+
+def start_telegram_listener():
+    """
+    Synchronous entry-point for running the Telegram listener inside a daemon thread.
+    Creates its own event loop so it does not conflict with FastAPI's event loop.
+    """
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        loop.run_until_complete(main())
+    finally:
+        loop.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
