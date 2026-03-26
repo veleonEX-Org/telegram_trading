@@ -369,7 +369,7 @@ async def heartbeat_loop():
 # ---------------------------------------------------------------------------
 
 async def main():
-    logger.info("Starting VPS Telegram listener...")
+    logger.info("Starting VPS Telegram listener (Standalone)...")
     await client.start()
     logger.info("Telegram client connected.")
 
@@ -377,6 +377,22 @@ async def main():
     asyncio.create_task(heartbeat_loop())
 
     await client.run_until_disconnected()
+
+
+async def start_telegram_listener_async():
+    """
+    Asynchronous entry-point for running the Telegram listener inside the FastAPI event loop.
+    This saves significant memory compared to running a daemon thread with its own loop.
+    """
+    logger.info("Starting VPS Telegram listener (Async mode)...")
+    await client.start()
+    logger.info("Telegram client connected.")
+
+    # Start Heartbeat loop
+    asyncio.create_task(heartbeat_loop())
+    
+    # Run the client in the background without blocking FastAPI's startup
+    asyncio.create_task(client.run_until_disconnected())
 
 
 def start_telegram_listener():

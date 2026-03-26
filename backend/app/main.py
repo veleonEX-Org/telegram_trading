@@ -10,8 +10,7 @@ from app.api.system import router as system_router
 from app.api.tradingheart import router as tradingheart_router
 from app.api.signals import router as signals_router
 from app.api.errors import router as errors_router
-from app.telegram.listener import start_telegram_listener
-import threading
+# Telegram listener will be imported lazily in startup task
 
 from app.core.config import settings
 from app.models.settings import Setting
@@ -88,10 +87,10 @@ async def on_startup():
     except Exception as e:
         print("⚠️ Database unavailable:", e)
 
-    # Launch Telegram listener in a background daemon thread
-    thread = threading.Thread(target=start_telegram_listener, daemon=True, name="telegram-listener")
-    thread.start()
-    print("✅ Telegram listener thread started.")
+    # Launch Telegram listener in a background task within the same event loop
+    from app.telegram.listener import start_telegram_listener_async
+    asyncio.create_task(start_telegram_listener_async())
+    print("✅ Telegram listener async task started.")
 
 if __name__ == "__main__":
     init_db()
