@@ -31,7 +31,8 @@ class SettingsService:
         # Merge with/Fallback to env settings
         env_keys = [
              "telegram_group_link", "base_balance", "max_lot", 
-             "magic_number", "min_balance_guard", "allow_trading"
+             "magic_number", "min_balance_guard", "allow_trading",
+             "use_signal_lot"
         ]
         for key in env_keys:
             if key not in result:

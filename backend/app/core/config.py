@@ -16,6 +16,7 @@ class Settings(BaseSettings):
 
     # System
     allow_trading: bool = True
+    use_signal_lot: bool = False
 
     # Storage
     fallback_json_path: str = "backend/data/fallback_store.json"

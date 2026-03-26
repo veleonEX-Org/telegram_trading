@@ -7,7 +7,8 @@ const SETTING_DESCRIPTIONS: Record<string, string> = {
   min_balance_guard: 'Severe equity protection. If your live MT5 balance falls below this number, lot sizes become 0.0 and trades are safely rejected.',
   max_lot: 'The maximum allowed lot size for a single position. Even if the maths say larger, the software will cap the risk here.',
   magic_number: 'The unique integer ID that MT5 attaches to these copied trades so it can close them appropriately without affecting your other EAs.',
-  telegram_group_link: 'The URL or invite link of the Telegram source group where signals derive from.'
+  telegram_group_link: 'The URL or invite link of the Telegram source group where signals derive from.',
+  use_signal_lot: 'When enabled, the system uses the exact lot size provided in the signal (e.g., 0.01) instead of calculating a scaled lot based on your balance.'
 };
 
 export default function Settings() {
@@ -78,7 +79,7 @@ export default function Settings() {
                 <p className="text-xs text-slate-500 mt-1 font-mono">{setting.key}</p>
               </div>
               <div className="flex items-center shrink-0">
-                {setting.key === 'allow_trading' ? (
+                {setting.key === 'allow_trading' || setting.key === 'use_signal_lot' ? (
                   <button
                     onClick={() => {
                       const currentVal = String(setting.value).toLowerCase() === 'true';

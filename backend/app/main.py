@@ -8,6 +8,8 @@ from app.api.performance import router as performance_router
 from app.api.settings import router as settings_router
 from app.api.system import router as system_router
 from app.api.tradingheart import router as tradingheart_router
+from app.api.signals import router as signals_router
+from app.api.errors import router as errors_router
 from app.telegram.listener import start_telegram_listener
 import threading
 
@@ -71,6 +73,8 @@ app.include_router(performance_router, prefix="/api/performance")
 app.include_router(settings_router, prefix="/api/settings")
 app.include_router(system_router, prefix="/api/system")
 app.include_router(tradingheart_router, prefix="/api/tradingheart")
+app.include_router(signals_router, prefix="/api/signals")
+app.include_router(errors_router, prefix="/api/errors")
 
 import asyncio
 from app.core.monitor import connection_monitor_loop

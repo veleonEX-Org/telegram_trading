@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Home, History, Activity, Settings, Search, LogOut, Menu, X, Globe, Terminal, Database } from 'lucide-react';
+import { Home, History, Activity, Settings, Search, LogOut, Menu, X, Globe, Terminal, Database, Zap, AlertTriangle } from 'lucide-react';
 import { getSystemStatus } from '@/api/client';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -26,6 +26,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Trades', href: '/trades', icon: History },
+    { name: 'Signals', href: '/signals', icon: Zap },
+    { name: 'Errors', href: '/errors', icon: AlertTriangle },
     { name: 'Performance', href: '/performance', icon: Activity },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];

@@ -69,14 +69,19 @@ def open_trade(db: Session, signal: dict, account_balance: float):
 
     base_balance = settings_service.get(db, "base_balance", 1000.0)
     max_lot = settings_service.get(db, "max_lot", 1.0)
+    use_signal_lot = settings_service.get(db, "use_signal_lot", False)
     
-    lot = calculate_scaled_lot(
-        signal["signal_lot"], 
-        account_balance, 
-        min_balance_guard=min_balance,
-        base_balance=base_balance,
-        max_lot=max_lot
-    )
+    if use_signal_lot:
+        lot = float(signal["signal_lot"])
+    else:
+        lot = calculate_scaled_lot(
+            signal["signal_lot"], 
+            account_balance, 
+            min_balance_guard=min_balance,
+            base_balance=base_balance,
+            max_lot=max_lot
+        )
+    
     if lot <= 0:
         return
 

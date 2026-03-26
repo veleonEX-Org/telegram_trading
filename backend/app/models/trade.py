@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime, Text
 from sqlalchemy.sql import func
 from app.core.db import Base
 
@@ -40,4 +40,6 @@ class TradeSignal(Base):
     signal_lot = Column(Float)
     action = Column(String, nullable=False)  # OPEN or CLOSE
     timestamp = Column(DateTime, server_default=func.now())
-    executed = Column(Integer, server_default="0") # 0 for False, 1 for True
+    executed = Column(Integer, server_default="0")  # 0 = pending, 1 = success
+    error_message = Column(Text, nullable=True)   # Last failure reason
+    error_at = Column(DateTime, nullable=True)    # When the last failure occurred

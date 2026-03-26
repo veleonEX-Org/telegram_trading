@@ -17,4 +17,10 @@ export const updateSetting = (key: string, value: string) =>
 
 export const getSystemStatus = () => apiClient.get('/api/system/status');
 
+export const getSignals = () => apiClient.get('/api/signals/');
+export const executeSignal = (signalId: number) => apiClient.post(`/api/signals/${signalId}/execute`);
+
+export const getErrors = () => apiClient.get('/api/errors/');
+export const dismissError = (signalId: number) => apiClient.delete(`/api/errors/${signalId}/dismiss`);
+
 export default apiClient;
